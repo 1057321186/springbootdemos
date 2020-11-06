@@ -1,5 +1,6 @@
 package com.oss.ossdemo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.oss.ossdemo.config.OssConfig;
 import com.oss.ossdemo.service.BucketService;
 import com.oss.ossdemo.service.DownLoadService;
@@ -40,7 +41,6 @@ public class OssController {
         log.info("上传文件={}" + file.getOriginalFilename());
 
         ApiResult result = new ApiResult();
-
         // ObjectName
         String key = UUID.randomUUID() + file.getOriginalFilename();
         log.info("key = " + key);
@@ -71,11 +71,18 @@ public class OssController {
         log.info("key = " + key);
         ApiResult result = new ApiResult();
         downLoadService.downLoadFile(key);
-
         return result;
     }
 
 
+    /**
+     *
+     * @return
+     */
+    @GetMapping("/show")
+    public ApiResult show(){
 
+        return null;
+    }
 
 }

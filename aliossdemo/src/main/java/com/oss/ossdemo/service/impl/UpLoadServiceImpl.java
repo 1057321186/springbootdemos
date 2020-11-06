@@ -34,8 +34,11 @@ public class UpLoadServiceImpl implements UpLoadService {
 
     public void streamUpLoad(String bucketName,String objectName) {
         // 创建OSSClient实例。
-        OSS ossClient = OssClientUtil.createOssClient();
-
+        OSS ossClient = new OSSClientBuilder().build(
+                ossConfig.getEndpoint(),
+                ossConfig.getAccessKeyId(),
+                ossConfig.getAccessKeySecret()
+                );
         // 创建PutObjectRequest对象。
         String content = "Hello OSS"; // 字符串上传
         byte[] bytes = content.getBytes();// 上传Byte数组
@@ -62,7 +65,11 @@ public class UpLoadServiceImpl implements UpLoadService {
         log.info("上传到oss文件参数:key,文件名"+ key );
 
         // 创建OSSClient实例。
-        OSS ossClient = OssClientUtil.createOssClient();
+        OSS ossClient = new OSSClientBuilder().build(
+                ossConfig.getEndpoint(),
+                ossConfig.getAccessKeyId(),
+                ossConfig.getAccessKeySecret()
+        );
 
         // 获取下载地址
         // key : 表示上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
@@ -78,11 +85,15 @@ public class UpLoadServiceImpl implements UpLoadService {
      * @return
      */
     public URL getUrl(String key){
-        OSS client = OssClientUtil.createOssClient();
+        OSS ossClient = new OSSClientBuilder().build(
+                ossConfig.getEndpoint(),
+                ossConfig.getAccessKeyId(),
+                ossConfig.getAccessKeySecret()
+        );
         // 设置URL过期时间为1小时
         Date expiration = new Date(new Date().getTime() + 3600 * 10000);
         // 生成URL
-        URL url = client.generatePresignedUrl(ossConfig.getBucketName(), key, expiration);
+        URL url = ossClient.generatePresignedUrl(ossConfig.getBucketName(), key, expiration);
         return url;
     }
     @Override
