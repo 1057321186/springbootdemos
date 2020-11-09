@@ -16,9 +16,9 @@ public class LoginController {
 
     @PostMapping("/login")
     public void login(){
-        System.out.println("数据库的账号:" + passwordConfig.getAccount());
-        System.out.println("数据库的密码:" + passwordConfig.getPassword());
-        System.out.println("数据库的密码:" + passwordConfig.getSalt());
+        System.out.println("解密后的账号:" + passwordConfig.getAccount());
+        System.out.println("解密后的密码:" + passwordConfig.getPassword());
+        System.out.println("盐值:" + passwordConfig.getSalt());
     }
 
 }
