@@ -1,2 +1,13 @@
+
 server:
-  port:1059
+  port: 1059
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    # ◊‘∂®“Â√ÿ‘ø
+    # password: ${jasypt.salt}
+    string-output-type: base64
+    property:
+      prefix: ENC(
+      suffix: )
+    password: ${salt}

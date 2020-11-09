@@ -1,13 +1,13 @@
-package com.github.demo;
+package com.jasypt.jasypt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class JasyptApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(JasyptApplication.class, args);
     }
 
 }
