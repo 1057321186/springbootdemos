@@ -5,6 +5,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.*;
+import com.google.common.collect.Maps;
 import com.oss.ossdemo.config.OssConfig;
 import com.oss.ossdemo.service.UpLoadService;
 import com.oss.ossdemo.util.OssClientUtil;
@@ -14,14 +15,24 @@ import org.jasypt.util.text.BasicTextEncryptor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @SpringBootTest
 class OssdemoApplicationTests {
+    public static final String DATETIME_FOMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATETIME_FOMAT_PAYTIME = "yyyyMMddHHmmss";
+    public static final String DATETIME_FORMAT_4_MONITOR = "yyyy/MM/dd HH:mm:ss";
+    public static final String Mill_DATETIME_FORMAT_4_MONITOR = "yyyy/MM/dd HH:mm:ss.SSS";
+    public static final String DATE_FOMAT = "yyyy-MM-dd";
+    public static final String TIME_FOMAT = "HH:mm:ss";
 
     @Resource
     OssConfig ossConfig;
@@ -31,6 +42,12 @@ class OssdemoApplicationTests {
 
     @Resource
     private StringEncryptor stringEncryptor;
+
+    @Resource
+    private RestTemplate restTemplate;
+
+
+
 
     @Test
     void createBucket(){
@@ -143,5 +160,33 @@ class OssdemoApplicationTests {
 
     }
 
+    @Test
+    public void test6(){
+        String url = "http://127.0.0.1:8080/collect/batStateinfoList?";
+        Map<String, String> params = Maps.newLinkedHashMap();
+        Date date = this.parseDateTime("2020-09-08 00:00:00");
+        Date endDate = this.parseDateTime("2020-09-08 23:59:59");
 
+        params.put("size", "20");
+        params.put("pageNum", "1");
+        params.put("startTime", ""+date.getTime());
+        params.put("endTime", ""+endDate.getTime());
+        params.put("batSN", "BXC0319082200001");
+
+        String template = restTemplate.getForObject(url + "size={size}&pageNum={pageNum}&startTime={startTime}&" +
+                "endTime={endTime}&batSN={batSN}", String.class, params);
+
+        System.out.println(template);
+    }
+
+    public static Date parseDateTime(String strDateTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATETIME_FOMAT);
+        Date date = null;
+        try {
+            date = sdf.parse(strDateTime);
+        } catch (Exception e) {
+            log.error("日期转换异常",e);
+        }
+        return date;
+    }
 }

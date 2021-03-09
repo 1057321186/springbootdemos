@@ -1,5 +1,5 @@
 server:
-  port: 1057
+  port: 8090
 spring:
   servlet:
     multipart:
