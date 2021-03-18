@@ -12,9 +12,4 @@ public class RabbitmqdemoApplication {
         SpringApplication.run(RabbitmqdemoApplication.class, args);
     }
 
-    @Bean
-    Jackson2JsonMessageConverter createMessageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
-
 }
